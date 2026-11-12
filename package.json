@@ -1,0 +1,34 @@
+{
+  "name": "reclaim-cli",
+  "version": "0.1.0",
+  "description": "Reclaim your hardware — one safe, emulator-first CLI to de-bloat, de-cloud and unlock devices you own. Starting with Android TV.",
+  "type": "module",
+  "bin": {
+    "reclaim": "bin/reclaim.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node bin/reclaim.js",
+    "emu": "node bin/reclaim.js emulator start",
+    "demo": "node bin/reclaim.js run androidtv/debloat --dry-run"
+  },
+  "files": [
+    "bin",
+    "src",
+    "recipes",
+    "profiles",
+    "catalog"
+  ],
+  "keywords": [
+    "android-tv",
+    "debloat",
+    "privacy",
+    "modding",
+    "homebrew",
+    "right-to-repair",
+    "cli"
+  ],
+  "license": "MIT"
+}

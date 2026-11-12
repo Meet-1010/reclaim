@@ -1,0 +1,19 @@
+{
+  "id": "androidtv/show-taps",
+  "name": "Show on-screen taps (for demos/recording)",
+  "device": "androidtv",
+  "area": "developer",
+  "risk": "safe",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Draws a dot wherever input lands — great when recording a how-to or debugging a remote. Reversible.",
+  "requires": ["adb"],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Enable visible touches",
+      "cmd": "settings put system show_touches 1",
+      "undo": "settings put system show_touches 0"
+    }
+  ]
+}

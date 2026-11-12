@@ -1,0 +1,28 @@
+{
+  "id": "androidtv/flauncher",
+  "name": "Install FLauncher (clean, ad-free home screen)",
+  "device": "androidtv",
+  "risk": "reversible",
+  "reversible": true,
+  "warranty": false,
+  "legality": "ok",
+  "summary": "Sideloads FLauncher, an open-source (GPLv3) Android TV launcher with no ads or sponsored rows. You supply the APK you downloaded from its official releases; reclaim just installs it.",
+  "requires": ["adb", "apk:flauncher"],
+  "notes": [
+    "reclaim does NOT bundle or download the APK. Point it at an APK you got from FLauncher's official GitHub releases.",
+    "Set the path with: reclaim run androidtv/flauncher --apk /path/to/flauncher.apk",
+    "To revert, just open Settings and pick the original launcher again."
+  ],
+  "steps": [
+    {
+      "type": "note",
+      "label": "You will be asked for the FLauncher APK path (official releases only)."
+    },
+    {
+      "type": "adb-install",
+      "label": "Install FLauncher",
+      "apk": "${apk}",
+      "undo": "pm uninstall me.efesser.flauncher"
+    }
+  ]
+}

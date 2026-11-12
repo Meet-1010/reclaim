@@ -1,0 +1,28 @@
+{
+  "id": "androidtv/no-captive-check",
+  "name": "Stop Google connectivity pings",
+  "device": "androidtv",
+  "risk": "safe",
+  "reversible": true,
+  "warranty": false,
+  "legality": "ok",
+  "summary": "Disables the repeated 'captive portal' check the device fires at Google servers to test connectivity. Cuts a steady stream of background calls for a bit more privacy. Reversible.",
+  "requires": ["adb"],
+  "notes": [
+    "Harmless on a normal home network. Re-enable with `reclaim undo` if a public/hotel Wi-Fi login page ever fails to appear."
+  ],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Turn off captive-portal detection",
+      "cmd": "settings put global captive_portal_mode 0",
+      "undo": "settings put global captive_portal_mode 1"
+    },
+    {
+      "type": "adb-shell",
+      "label": "Disable captive-portal connectivity check",
+      "cmd": "settings put global captive_portal_detection_enabled 0",
+      "undo": "settings put global captive_portal_detection_enabled 1"
+    }
+  ]
+}

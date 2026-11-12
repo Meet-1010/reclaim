@@ -1,0 +1,34 @@
+{
+  "id": "androidtv/privacy",
+  "name": "Lock down tracking & telemetry",
+  "device": "androidtv",
+  "risk": "safe",
+  "reversible": true,
+  "warranty": false,
+  "legality": "ok",
+  "summary": "Turns off ad personalization, usage reporting and background location pings using public Android settings. All changes are standard settings toggles and fully reversible.",
+  "requires": ["adb"],
+  "notes": [
+    "Only flips documented `settings` keys — no system files touched."
+  ],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Disable ad personalization (limit ad tracking)",
+      "cmd": "settings put secure limit_ad_tracking 1",
+      "undo": "settings put secure limit_ad_tracking 0"
+    },
+    {
+      "type": "adb-shell",
+      "label": "Turn off usage & diagnostics reporting",
+      "cmd": "settings put global multi_cpu_stats_collection 0",
+      "undo": "settings put global multi_cpu_stats_collection 1"
+    },
+    {
+      "type": "adb-shell",
+      "label": "Disable 'improve from this device' telemetry",
+      "cmd": "settings put secure send_action_app_error 0",
+      "undo": "settings put secure send_action_app_error 1"
+    }
+  ]
+}

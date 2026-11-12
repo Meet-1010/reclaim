@@ -1,0 +1,25 @@
+{
+  "id": "androidtv/storage",
+  "name": "Free up storage (clear caches)",
+  "device": "androidtv",
+  "risk": "safe",
+  "reversible": false,
+  "warranty": false,
+  "legality": "ok",
+  "summary": "Trims cached junk from apps to reclaim space on a nearly-full TV box. Only caches are cleared — no apps, logins or user data are touched, and caches rebuild on their own.",
+  "requires": ["adb"],
+  "notes": [
+    "Nothing to undo: caches are temporary files that apps regenerate automatically."
+  ],
+  "steps": [
+    {
+      "type": "note",
+      "label": "This clears only app caches. Your apps, accounts and settings are untouched."
+    },
+    {
+      "type": "adb-shell",
+      "label": "Trim all app caches to reclaim space",
+      "cmd": "pm trim-caches 999999999999"
+    }
+  ]
+}

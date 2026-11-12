@@ -1,0 +1,28 @@
+{
+  "id": "androidtv/sideload",
+  "name": "Sideload any app (APK you provide)",
+  "device": "androidtv",
+  "risk": "reversible",
+  "warranty": false,
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Installs an APK you downloaded — great for apps the TV store doesn't carry (e.g. a different browser, Jellyfin, Kodi, F-Droid). reclaim never downloads anything; you point it at a file you obtained yourself.",
+  "requires": ["adb", "apk"],
+  "notes": [
+    "Usage: reclaim run androidtv/sideload --apk /path/to/app.apk --package com.example.app --yes",
+    "--package is the app's id, used so `reclaim undo` can uninstall it cleanly.",
+    "Only sideload APKs from sources you trust (official sites / F-Droid)."
+  ],
+  "steps": [
+    {
+      "type": "note",
+      "label": "Provide the APK with --apk and the app id with --package for clean undo."
+    },
+    {
+      "type": "adb-install",
+      "label": "Install the provided APK",
+      "apk": "${apk}",
+      "undo": "pm uninstall ${package}"
+    }
+  ]
+}

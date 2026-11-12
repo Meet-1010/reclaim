@@ -1,0 +1,19 @@
+{
+  "id": "androidtv/wifi-scan-off",
+  "name": "Stop background Wi-Fi scanning",
+  "device": "androidtv",
+  "area": "privacy",
+  "risk": "safe",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Disables the always-on Wi-Fi/location scanning that runs even when idle — less background tracking and a touch less power. Reversible.",
+  "requires": ["adb"],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Disable Wi-Fi scan-always",
+      "cmd": "settings put global wifi_scan_always_enabled 0",
+      "undo": "settings put global wifi_scan_always_enabled 1"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "recommended",
+  "name": "The works (safe, no input)",
+  "device": "androidtv",
+  "summary": "The full safe tune-up: de-bloat, de-track, block ads, stop pings, speed up and free space. Everything here is reversible and needs nothing from you.",
+  "recipes": [
+    "androidtv/debloat",
+    "androidtv/privacy",
+    "androidtv/adblock-dns",
+    "androidtv/no-captive-check",
+    "androidtv/snappy",
+    "androidtv/storage"
+  ]
+}

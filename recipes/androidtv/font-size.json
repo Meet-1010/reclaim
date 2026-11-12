@@ -1,0 +1,19 @@
+{
+  "id": "androidtv/font-size",
+  "name": "Make text bigger (or smaller)",
+  "device": "androidtv",
+  "area": "accessibility",
+  "risk": "safe",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Scales system font size for easier reading from the couch. Default 1.2×; pass --scale 1.3 for larger or 0.9 for smaller. Reset to 1.0 anytime.",
+  "requires": ["adb"],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Set font scale",
+      "cmd": "settings put system font_scale ${scale}",
+      "undo": "settings put system font_scale 1.0"
+    }
+  ]
+}

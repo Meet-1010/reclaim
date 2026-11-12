@@ -1,0 +1,34 @@
+{
+  "id": "androidtv/snappy",
+  "name": "Speed up the UI (snappier animations)",
+  "device": "androidtv",
+  "risk": "safe",
+  "reversible": true,
+  "warranty": false,
+  "legality": "ok",
+  "summary": "Halves the system animation durations so an older or slow TV box feels noticeably faster. These are the same scales under Developer Options. Reset to 1.0 anytime.",
+  "requires": ["adb"],
+  "notes": [
+    "Set to 0.5 by default. Use --scale 0 to turn animations off entirely for max speed."
+  ],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Set window animation scale",
+      "cmd": "settings put global window_animation_scale ${scale}",
+      "undo": "settings put global window_animation_scale 1.0"
+    },
+    {
+      "type": "adb-shell",
+      "label": "Set transition animation scale",
+      "cmd": "settings put global transition_animation_scale ${scale}",
+      "undo": "settings put global transition_animation_scale 1.0"
+    },
+    {
+      "type": "adb-shell",
+      "label": "Set animator duration scale",
+      "cmd": "settings put global animator_duration_scale ${scale}",
+      "undo": "settings put global animator_duration_scale 1.0"
+    }
+  ]
+}

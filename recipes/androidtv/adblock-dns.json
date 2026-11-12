@@ -1,0 +1,30 @@
+{
+  "id": "androidtv/adblock-dns",
+  "name": "Block ads network-wide with Private DNS",
+  "device": "androidtv",
+  "risk": "safe",
+  "reversible": true,
+  "warranty": false,
+  "legality": "ok",
+  "summary": "Points the TV's built-in Private DNS at a free, ad-blocking DNS-over-TLS resolver. Ads and trackers get blocked at the network level across every app — no root, no extra software. Fully reversible.",
+  "requires": ["adb"],
+  "notes": [
+    "Default resolver: AdGuard DNS (dns.adguard-dns.com) — a public, free, privacy resolver.",
+    "Change it with --dns <hostname>, e.g. --dns family.adguard-dns.com for family filtering.",
+    "This is the same 'Private DNS' feature in Android Settings, just set for you."
+  ],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Enable Private DNS (hostname mode)",
+      "cmd": "settings put global private_dns_mode hostname",
+      "undo": "settings put global private_dns_mode opportunistic"
+    },
+    {
+      "type": "adb-shell",
+      "label": "Set ad-blocking DNS resolver",
+      "cmd": "settings put global private_dns_specifier ${dns}",
+      "undo": "settings delete global private_dns_specifier"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "androidtv/location-off",
+  "name": "Turn off location",
+  "device": "androidtv",
+  "area": "privacy",
+  "risk": "safe",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "A TV box rarely needs your location. This switches location services off for a bit more privacy. Reversible.",
+  "requires": ["adb"],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Disable location services",
+      "cmd": "settings put secure location_mode 0",
+      "undo": "settings put secure location_mode 3"
+    }
+  ]
+}

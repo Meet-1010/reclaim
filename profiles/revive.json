@@ -1,0 +1,10 @@
+{
+  "id": "revive",
+  "name": "Revive an old box",
+  "device": "androidtv",
+  "summary": "Frees up storage and speeds up the interface to make a slow, aging TV box usable again.",
+  "recipes": [
+    "androidtv/storage",
+    "androidtv/snappy"
+  ]
+}

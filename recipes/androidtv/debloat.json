@@ -1,0 +1,39 @@
+{
+  "id": "androidtv/debloat",
+  "name": "Remove bloatware & ads",
+  "device": "androidtv",
+  "risk": "reversible",
+  "reversible": true,
+  "warranty": false,
+  "legality": "ok",
+  "summary": "Disables common pre-installed junk and ad/recommendation services. Nothing is deleted — every app is only disabled for the current user and can be re-enabled instantly.",
+  "requires": ["adb"],
+  "notes": [
+    "Uses `pm disable-user`, which is fully reversible with `pm enable`.",
+    "Package list is conservative. Review it for your box before applying."
+  ],
+  "steps": [
+    {
+      "type": "note",
+      "label": "This recipe only DISABLES apps (reversible). It never uninstalls system software."
+    },
+    {
+      "type": "adb-shell",
+      "label": "Disable sponsored home-screen recommendations",
+      "cmd": "pm disable-user --user 0 com.google.android.tvrecommendations",
+      "undo": "pm enable com.google.android.tvrecommendations"
+    },
+    {
+      "type": "adb-shell",
+      "label": "Disable the built-in deals/ads app (if present)",
+      "cmd": "pm disable-user --user 0 com.google.android.play.games || true",
+      "undo": "pm enable com.google.android.play.games || true"
+    },
+    {
+      "type": "adb-shell",
+      "label": "Disable usage/analytics reporter",
+      "cmd": "pm disable-user --user 0 com.google.android.feedback || true",
+      "undo": "pm enable com.google.android.feedback || true"
+    }
+  ]
+}

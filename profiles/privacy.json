@@ -1,0 +1,12 @@
+{
+  "id": "privacy",
+  "name": "Maximum privacy",
+  "device": "androidtv",
+  "summary": "Strips tracking, ads and sponsored junk off the whole TV in one go. All reversible.",
+  "recipes": [
+    "androidtv/debloat",
+    "androidtv/privacy",
+    "androidtv/adblock-dns",
+    "androidtv/no-captive-check"
+  ]
+}

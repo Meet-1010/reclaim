@@ -1,0 +1,19 @@
+{
+  "id": "androidtv/stay-awake",
+  "name": "Keep the screen from sleeping",
+  "device": "androidtv",
+  "area": "display",
+  "risk": "safe",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Stops the TV from dropping to black after idle — handy for a dashboard, digital-signage, or always-on home screen. Reversible to a normal timeout.",
+  "requires": ["adb"],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Set screen timeout to never",
+      "cmd": "settings put system screen_off_timeout 2147483647",
+      "undo": "settings put system screen_off_timeout 600000"
+    }
+  ]
+}

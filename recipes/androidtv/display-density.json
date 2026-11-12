@@ -1,0 +1,20 @@
+{
+  "id": "androidtv/display-density",
+  "name": "Fit more on screen (change DPI)",
+  "device": "androidtv",
+  "area": "display",
+  "risk": "advanced",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Lowers UI density so more content fits on screen (or raise it for bigger elements). Pass --density 213. If the UI looks wrong, undo resets it. Advanced: extreme values can make the UI awkward until reset.",
+  "requires": ["adb"],
+  "notes": ["Typical TV density is ~320. Try --density 240 for a roomier layout."],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Set display density",
+      "cmd": "wm density ${density}",
+      "undo": "wm density reset"
+    }
+  ]
+}
