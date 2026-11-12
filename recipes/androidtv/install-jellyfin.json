@@ -1,0 +1,20 @@
+{
+  "id": "androidtv/install-jellyfin",
+  "name": "Install Jellyfin client",
+  "device": "androidtv",
+  "area": "media-server",
+  "risk": "reversible",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Installs the Jellyfin Android TV client from an APK you downloaded from its official releases, to stream from your own Jellyfin server. reclaim never downloads anything.",
+  "requires": ["adb", "apk"],
+  "notes": ["Download from the official Jellyfin releases, then: reclaim run androidtv/install-jellyfin --apk /path/to.apk --yes"],
+  "steps": [
+    {
+      "type": "adb-install",
+      "label": "Install Jellyfin",
+      "apk": "${apk}",
+      "undo": "pm uninstall org.jellyfin.androidtv"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "androidtv/install-smarttube",
+  "name": "Install SmartTube (ad-free YouTube)",
+  "device": "androidtv",
+  "area": "ads",
+  "risk": "reversible",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Installs SmartTube, an open-source, ad-free YouTube client for Android TV, from an APK you downloaded from its official releases. reclaim never downloads anything.",
+  "requires": ["adb", "apk"],
+  "notes": ["Download from the official SmartTube releases, then: reclaim run androidtv/install-smarttube --apk /path/to.apk --yes"],
+  "steps": [
+    {
+      "type": "adb-install",
+      "label": "Install SmartTube",
+      "apk": "${apk}",
+      "undo": "pm uninstall com.teamsmart.videomanager.tv"
+    }
+  ]
+}

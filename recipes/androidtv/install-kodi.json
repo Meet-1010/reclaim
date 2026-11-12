@@ -1,0 +1,20 @@
+{
+  "id": "androidtv/install-kodi",
+  "name": "Install Kodi media center",
+  "device": "androidtv",
+  "area": "media-server",
+  "risk": "reversible",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Installs Kodi, the open-source media center, from an APK you downloaded from kodi.tv. Plays your own local and network media. reclaim never downloads anything.",
+  "requires": ["adb", "apk"],
+  "notes": ["Download from https://kodi.tv, then: reclaim run androidtv/install-kodi --apk /path/to.apk --yes"],
+  "steps": [
+    {
+      "type": "adb-install",
+      "label": "Install Kodi",
+      "apk": "${apk}",
+      "undo": "pm uninstall org.xbmc.kodi"
+    }
+  ]
+}

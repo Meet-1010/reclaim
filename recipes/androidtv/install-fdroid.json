@@ -1,0 +1,20 @@
+{
+  "id": "androidtv/install-fdroid",
+  "name": "Install F-Droid (open-source app store)",
+  "device": "androidtv",
+  "area": "sideloading",
+  "risk": "reversible",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Installs F-Droid, the open-source app store, from an APK you downloaded from its official site. reclaim installs it; it never downloads anything.",
+  "requires": ["adb", "apk"],
+  "notes": ["Get the APK from https://f-droid.org, then: reclaim run androidtv/install-fdroid --apk /path/to.apk --yes"],
+  "steps": [
+    {
+      "type": "adb-install",
+      "label": "Install F-Droid",
+      "apk": "${apk}",
+      "undo": "pm uninstall org.fdroid.fdroid"
+    }
+  ]
+}
