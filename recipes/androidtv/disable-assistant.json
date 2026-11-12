@@ -1,0 +1,20 @@
+{
+  "id": "androidtv/disable-assistant",
+  "name": "Disable Google Assistant / voice search",
+  "device": "androidtv",
+  "area": "privacy",
+  "risk": "reversible",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Disables the Android TV Assistant / voice-search app (Katniss) so the box isn't listening for a hotword. Only disabled, never removed — fully reversible.",
+  "requires": ["adb"],
+  "notes": ["If your box ships a different assistant package, adjust the recipe for it."],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Disable the Assistant / search app",
+      "cmd": "pm disable-user --user 0 com.google.android.katniss || true",
+      "undo": "pm enable com.google.android.katniss || true"
+    }
+  ]
+}

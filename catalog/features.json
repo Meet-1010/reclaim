@@ -21,10 +21,10 @@
   { "id": "androidtv/scheduled-reboot", "name": "Nightly auto-reboot", "area": "maintenance", "family": "Android TV", "risk": "safe", "status": "template", "plan": "Schedule a reboot via a local job for long-term stability of cheap boxes." },
   { "id": "androidtv/hdmi-cec", "name": "Tune HDMI-CEC behavior", "area": "display", "family": "Android TV", "risk": "safe", "status": "template", "plan": "Adjust one-touch-play / auto-standby CEC settings." },
   { "id": "androidtv/block-ota", "name": "Block firmware OTA updates", "area": "updates", "family": "Android TV", "risk": "advanced", "status": "template", "plan": "Disable the OTA update service to keep a working firmware; reversible." },
-  { "id": "androidtv/dark-mode", "name": "Force dark UI", "area": "display", "family": "Android TV", "risk": "safe", "status": "template", "plan": "Set night mode where the launcher/system supports it." },
+  { "id": "androidtv/dark-mode", "name": "Force dark UI", "area": "display", "family": "Android TV", "risk": "safe", "status": "template", "plan": "`cmd uimode night yes` runs, but Android TV launchers/apps vary in honoring it — effect isn't reliable enough to ship as a tested recipe yet." },
   { "id": "androidtv/usb-debug-wifi", "name": "Persistent wireless adb", "area": "remote-control", "family": "Android TV", "risk": "safe", "status": "template", "plan": "Keep adb-over-Wi-Fi enabled across reboots for always-on control." },
-  { "id": "androidtv/smart-dns", "name": "Set a custom DNS profile", "area": "dns", "family": "Android TV", "risk": "safe", "status": "template", "plan": "Point Private DNS at any resolver you choose (family filtering, privacy, etc.)." },
-  { "id": "androidtv/disable-assistant", "name": "Disable Google Assistant mic", "area": "privacy", "family": "Android TV", "risk": "reversible", "status": "template", "plan": "Disable the assistant/hotword component for a mic-off box." },
+  { "id": "androidtv/smart-dns", "name": "Set a custom Private DNS", "area": "dns", "family": "Android TV", "risk": "safe", "status": "ready" },
+  { "id": "androidtv/disable-assistant", "name": "Disable Google Assistant / voice search", "area": "privacy", "family": "Android TV", "risk": "reversible", "status": "ready" },
 
   { "id": "firetv/clean-launcher", "name": "Replace the Amazon launcher", "area": "launchers", "family": "Fire TV", "risk": "reversible", "status": "template", "plan": "Install a clean launcher and set it as home; Amazon's launcher is only disabled." },
   { "id": "firetv/kill-ad-row", "name": "Remove the sponsored home row", "area": "ads", "family": "Fire TV", "risk": "reversible", "status": "template", "plan": "Disable the featured/sponsored content component." },

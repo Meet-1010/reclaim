@@ -1,0 +1,28 @@
+{
+  "id": "androidtv/smart-dns",
+  "name": "Set a custom Private DNS",
+  "device": "androidtv",
+  "area": "dns",
+  "risk": "safe",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Point the TV's Private DNS at any resolver you choose — family filtering, a privacy resolver, NextDNS, Cloudflare, and so on. Pass --dns <hostname>. Reversible.",
+  "requires": ["adb"],
+  "notes": [
+    "Examples: --dns family.adguard-dns.com · --dns 1dot1dot1dot1.cloudflare-dns.com · --dns <id>.dns.nextdns.io"
+  ],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Enable Private DNS (hostname mode)",
+      "cmd": "settings put global private_dns_mode hostname",
+      "undo": "settings put global private_dns_mode opportunistic"
+    },
+    {
+      "type": "adb-shell",
+      "label": "Set the DNS resolver",
+      "cmd": "settings put global private_dns_specifier ${dns}",
+      "undo": "settings delete global private_dns_specifier"
+    }
+  ]
+}
