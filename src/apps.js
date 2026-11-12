@@ -3,6 +3,7 @@
 // not just the names baked into recipes.
 import * as adb from './adb.js';
 import * as ui from './ui.js';
+import * as safety from './safety.js';
 
 async function list(serial, flag) {
   try {
@@ -36,6 +37,11 @@ export async function listApps(serial, { all = false } = {}) {
 export async function setEnabled(serial, pkg, enabled) {
   if (!pkg) {
     ui.fail('Which app? e.g. ' + ui.c.bold('reclaim app disable com.example.bloat'));
+    return;
+  }
+  if (!enabled && safety.isProtected(pkg)) {
+    ui.fail(`${pkg} is a protected system app — reclaim won't disable it (could brick the device).`);
+    ui.info('See the full guard list: ' + ui.c.bold('reclaim protected'));
     return;
   }
   const action = enabled ? 'enable' : 'disable-user --user 0';

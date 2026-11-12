@@ -5,6 +5,7 @@ import * as recipesMod from './recipes.js';
 import * as profilesMod from './profiles.js';
 import * as catalog from './catalog.js';
 import * as ui from './ui.js';
+import * as safety from './safety.js';
 
 const RISK = new Set(['safe', 'reversible', 'advanced', 'expert']);
 const FEAT_STATUS = new Set(['ready', 'template']);
@@ -29,6 +30,10 @@ export async function run() {
       if (s.type === 'adb-install' && !s.apk) E(`recipe ${r.id}: adb-install step missing "apk"`);
       if (s.type === 'adb-shell' && r.reversible !== false && !s.undo) {
         W(`recipe ${r.id}: step "${s.label || s.cmd}" has no undo`);
+      }
+      if (s.type === 'adb-shell') {
+        const bad = safety.protectedTargets(s.cmd);
+        if (bad.length) E(`recipe ${r.id}: step "${s.label}" targets PROTECTED app(s) ${bad.join(', ')} — would risk bricking`);
       }
     }
   }

@@ -9,6 +9,17 @@ unlocks devices you already own — starting with **Android TV**.
 
 ---
 
+## Safety model
+
+- **Brick-guard** — a hard list of critical system packages (launcher, SystemUI,
+  Settings, Play Services, input methods…) that reclaim will **never** disable or
+  uninstall. Enforced in the engine, in `reclaim app disable`, **and** in
+  `reclaim validate` — so a dangerous recipe can't even be committed. See
+  `reclaim protected`.
+- **Risk-rated confirmations** — `safe`/`reversible` recipes apply with `--yes`;
+  `advanced`/`expert` recipes additionally require `--force`, so a heavy change is
+  never one keystroke away.
+
 ## Why it's safe by design
 
 Every risky hardware tweak is normally a wall of forum commands you paste and pray over.

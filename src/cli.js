@@ -14,6 +14,7 @@ import * as apps from './apps.js';
 import * as backup from './backup.js';
 import * as catalog from './catalog.js';
 import * as validate from './validate.js';
+import * as safety from './safety.js';
 
 export async function run(argv) {
   const { cmd, args, flags } = parse(argv);
@@ -40,6 +41,8 @@ export async function run(argv) {
       return cmdSearch(args.join(' '));
     case 'validate':
       return cmdValidate();
+    case 'protected':
+      return cmdProtected();
     case 'new-device':
       return catalog.newDevice(flags);
     case 'new-recipe':
@@ -211,6 +214,18 @@ async function cmdValidate() {
   if (code) process.exitCode = code;
 }
 
+function cmdProtected() {
+  const { ids, prefixes } = safety.list();
+  ui.heading('Protected system apps (brick-guard)');
+  ui.log('  ' + ui.c.dim('reclaim will never disable or uninstall these — doing so can brick the device.'));
+  ui.nl();
+  ui.log('  ' + ui.c.bold('Exact packages (' + ids.length + ')'));
+  ids.forEach((p) => ui.log('    ' + ui.c.gray('•') + ' ' + p));
+  ui.nl();
+  ui.log('  ' + ui.c.bold('Protected prefixes (' + prefixes.length + ')'));
+  prefixes.forEach((p) => ui.log('    ' + ui.c.gray('•') + ' ' + p + ui.c.dim('*')));
+}
+
 async function cmdProfiles() {
   ui.heading('Profiles — one command, many recipes');
   const all = await profilesMod.loadAll();
@@ -257,6 +272,13 @@ async function cmdProfile(id, flags) {
   if (!prof) return;
   if (prof.family !== profile.device) {
     ui.fail(`This profile is for "${profile.device}" but the connected device is "${prof.family}".`);
+    return;
+  }
+  const recs = await Promise.all(profile.recipes.map((id) => recipesMod.findById(id)));
+  const risky = recs.filter((r) => r && (r.risk === 'advanced' || r.risk === 'expert'));
+  if (risky.length && !flags.force) {
+    ui.warn(`This profile includes ${risky.length} higher-risk recipe(s): ` + risky.map((r) => r.id).join(', '));
+    ui.info('Re-run with ' + ui.c.bold('--yes --force') + ' to proceed.');
     return;
   }
   if (!flags.yes) {
@@ -346,6 +368,11 @@ async function cmdRun(id, flags) {
   if (!profile) return;
   if (profile.family !== recipe.device) {
     ui.fail(`This recipe is for "${recipe.device}" but the connected device is "${profile.family}".`);
+    return;
+  }
+  if ((recipe.risk === 'advanced' || recipe.risk === 'expert') && !flags.force) {
+    ui.warn('This recipe is rated ' + ui.badge(recipe.risk) + ' — higher risk.');
+    ui.info('Read the summary above, then re-run with ' + ui.c.bold('--yes --force') + ' to proceed.');
     return;
   }
   if (!flags.yes) {
@@ -525,6 +552,7 @@ function showHelp() {
   row('screenshot [file]', 'Save a PNG of the TV screen');
   row('apps [--all]', 'List installed apps');
   row('app disable|enable <id>', 'Disable/enable any app (reversible)');
+  row('protected', 'List system apps reclaim refuses to disable');
   row('wifi', 'Control the TV over Wi-Fi, no cable');
   row('reboot', 'Reboot the TV');
   ui.nl();

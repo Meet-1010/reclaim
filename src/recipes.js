@@ -7,6 +7,7 @@ import { dirname, join } from 'node:path';
 import * as adb from './adb.js';
 import * as store from './store.js';
 import * as ui from './ui.js';
+import * as safety from './safety.js';
 
 const RECIPES_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'recipes');
 
@@ -77,6 +78,20 @@ export async function execute(recipe, { serial, mode }) {
 
   for (const stepObj of recipe.steps) {
     const desc = describeStep(stepObj);
+
+    // BRICK-GUARD: never disable/uninstall a protected system package.
+    if (stepObj.type === 'adb-shell') {
+      const bad = safety.protectedTargets(stepObj.cmd);
+      if (bad.length) {
+        ui.fail(`Blocked "${stepObj.label}" — would touch protected system app(s): ${bad.join(', ')}`);
+        ui.info('reclaim refuses this to avoid bricking the device (see ' + ui.c.bold('reclaim protected') + ').');
+        if (mode === 'apply' && undoStack.length) {
+          ui.warn('Rolling back the steps already applied…');
+          await rollback(serial, undoStack);
+        }
+        return { ok: false, doneCount, failedAt: stepObj.label, undo: undoStack, blocked: true };
+      }
+    }
 
     if (mode === 'dry') {
       ui.dryRun(desc);
