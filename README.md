@@ -47,7 +47,19 @@ node bin/reclaim.js run androidtv/debloat --dry-run
 node bin/reclaim.js list
 ```
 
-Once published you'd run it as `npx reclaim <command>` or install it globally.
+Once published, anyone can run it with no install:
+
+```bash
+npx reclaim-hw help
+npx reclaim-hw run androidtv/privacy --dry-run
+```
+
+…or install it globally so the command is just `reclaim`:
+
+```bash
+npm install -g reclaim-hw
+reclaim help
+```
 
 ## Try it for real on a virtual TV (still no hardware)
 
