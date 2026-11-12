@@ -3,6 +3,12 @@
 All notable changes to `reclaim-hw`. Dates are UTC. This project follows a
 "ready means verified" rule — recipes ship only when their effect is confirmed.
 
+## [0.5.0] - 2026-11-12
+### Added
+- `--json` now also covers `list`, `history`, `protected` and `lists` — every
+  read command is scriptable.
+- Deeper Fire lists from sourced data: Fire TV +19, Fire tablet +15 packages.
+
 ## [0.4.0] - 2026-11-12
 ### Added
 - **`--json` output** for `catalog`, `bloat`, `doctor` and `debloat` — reclaim is

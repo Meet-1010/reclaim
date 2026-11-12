@@ -33,7 +33,7 @@ export async function run(argv) {
     case 'detect':
       return cmdDetect();
     case 'list':
-      return cmdList();
+      return cmdList(flags);
     case 'catalog':
       return cmdCatalog(args[0], flags);
     case 'browse':
@@ -43,7 +43,7 @@ export async function run(argv) {
     case 'validate':
       return cmdValidate();
     case 'protected':
-      return cmdProtected();
+      return cmdProtected(flags);
     case 'bloat':
       return cmdBloat(args[0], flags);
     case 'debloat':
@@ -65,7 +65,7 @@ export async function run(argv) {
     case 'undo':
       return cmdUndo(args[0], flags);
     case 'history':
-      return cmdHistory();
+      return cmdHistory(flags);
     case 'doctor':
       return cmdDoctor(flags);
     case 'remote':
@@ -175,9 +175,12 @@ async function cmdDetect() {
   ui.info('Next: ' + ui.c.bold('reclaim recommend') + ' to see what you can safely do.');
 }
 
-async function cmdList() {
-  ui.heading('All recipes');
+async function cmdList(flags = {}) {
   const all = await recipesMod.loadAll();
+  if (flags.json) {
+    return printJson(all.map((r) => ({ id: r.id, name: r.name, device: r.device, risk: r.risk, reversible: r.reversible !== false })));
+  }
+  ui.heading('All recipes');
   if (!all.length) return ui.warn('No recipes found.');
   const byFamily = {};
   for (const r of all) (byFamily[r.device] ??= []).push(r);
@@ -296,16 +299,25 @@ async function cmdDebloat(flags) {
   await lists.debloat(serial, { device: dev, level, mode: dry ? 'dry' : 'apply' });
 }
 
-async function cmdLists(sub, dev, flags) {
+async function cmdLists(sub, dev, flags = {}) {
   if (sub === 'update') {
     await lists.update(dev || 'androidtv', { url: flags.url, file: flags.file });
     return;
   }
+  if (flags.json) {
+    const out = [];
+    for (const d of await lists.available()) {
+      const l = await lists.load(d);
+      out.push({ device: d, packages: l.packages.length, origin: l._origin });
+    }
+    return printJson(out);
+  }
   await lists.overview();
 }
 
-function cmdProtected() {
+function cmdProtected(flags = {}) {
   const { ids, prefixes } = safety.list();
+  if (flags.json) return printJson({ ids, prefixes });
   ui.heading('Protected system apps (brick-guard)');
   ui.log('  ' + ui.c.dim('reclaim will never disable or uninstall these — doing so can brick the device.'));
   ui.nl();
@@ -493,9 +505,10 @@ async function cmdUndo(id, flags) {
   else ui.fail('Could not undo: ' + res.reason);
 }
 
-async function cmdHistory() {
-  ui.heading('Device passport');
+async function cmdHistory(flags = {}) {
   const entries = await store.history();
+  if (flags.json) return printJson(entries);
+  ui.heading('Device passport');
   if (!entries.length) {
     ui.info('Nothing applied yet. Everything you do will be logged here so it can be undone.');
     ui.log('  ' + ui.c.dim('Stored at: ' + store.storePath));
@@ -660,7 +673,7 @@ function showHelp() {
   ui.log('  ' + ui.c.bold('GLOBAL FLAGS'));
   row('--dry-run', 'Never touch a device — just show what would happen');
   row('--yes', 'Skip the confirmation prompt');
-  row('--json', 'Machine-readable output (catalog, bloat, doctor, debloat)');
+  row('--json', 'Machine-readable output (most read commands)');
   ui.nl();
   ui.box(
     [

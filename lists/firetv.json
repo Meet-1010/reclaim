@@ -46,6 +46,24 @@
     { "package": "com.amazon.neo.minerva.logcat", "label": "Minerva logcat", "category": "telemetry", "level": "recommended", "about": "Log collection for Minerva analytics." },
     { "package": "com.amazon.device.sale.service", "label": "Sale / retail service", "category": "ads", "level": "recommended", "about": "Retail/sale promotions service." },
     { "package": "com.amazon.windowshop", "label": "Amazon Shopping", "category": "ads", "level": "recommended", "about": "Pre-installed Amazon shopping app." },
-    { "package": "com.amazon.iris", "label": "News", "category": "bloat", "level": "recommended", "about": "Amazon news app." }
+    { "package": "com.amazon.iris", "label": "News", "category": "bloat", "level": "recommended", "about": "Amazon news app." },
+    { "package": "com.amazon.client.metrics", "label": "Client metrics", "category": "telemetry", "level": "recommended", "about": "Usage metrics reporting." },
+    { "package": "com.amazon.client.metrics.api", "label": "Client metrics API", "category": "telemetry", "level": "recommended", "about": "Metrics API." },
+    { "package": "com.amazon.minerva.client.api", "label": "Minerva metrics", "category": "telemetry", "level": "recommended", "about": "Amazon Minerva analytics." },
+    { "package": "com.amazon.device.metrics", "label": "Device metrics", "category": "telemetry", "level": "recommended", "about": "Device telemetry." },
+    { "package": "com.amazon.platform", "label": "Metrics service", "category": "telemetry", "level": "recommended", "about": "Metrics service app." },
+    { "package": "com.fireos.usagestats.proxy", "label": "Usage-stats proxy", "category": "telemetry", "level": "recommended", "about": "Usage-statistics proxy." },
+    { "package": "com.amazon.weather", "label": "Weather", "category": "bloat", "level": "recommended", "about": "Weather app." },
+    { "package": "com.amazon.wallpaper", "label": "Wallpaper", "category": "bloat", "level": "recommended", "about": "Amazon wallpaper app." },
+    { "package": "com.amazon.legalsettings", "label": "Legal notices", "category": "bloat", "level": "recommended", "about": "Legal notices app." },
+    { "package": "com.amazon.csapp", "label": "Help app", "category": "bloat", "level": "recommended", "about": "Help/support app." },
+    { "package": "com.amazon.zico", "label": "Documents", "category": "bloat", "level": "recommended", "about": "Documents app." },
+    { "package": "com.amazon.tahoe", "label": "Kids Space", "category": "bloat", "level": "advanced", "about": "Kids space / child profile." },
+    { "package": "com.amazon.dee.app", "label": "Alexa app", "category": "assistant", "level": "advanced", "about": "The Alexa app. Disabling turns off Alexa." },
+    { "package": "com.amazon.tablet.voiceassistant", "label": "Alexa voice assistant", "category": "assistant", "level": "advanced", "about": "On-device voice assistant." },
+    { "package": "com.amazon.afe.app", "label": "Tap to Alexa", "category": "assistant", "level": "advanced", "about": "Tap-to-Alexa accessibility." },
+    { "package": "com.amazon.smartgenie", "label": "Alexa dashboard", "category": "assistant", "level": "advanced", "about": "Alexa device dashboard/hunches." },
+    { "package": "com.amazon.device.sync", "label": "Sync service", "category": "amazon-service", "level": "advanced", "about": "Amazon account sync." },
+    { "package": "com.amazon.diode", "label": "Diode", "category": "amazon-service", "level": "advanced", "about": "Amazon Diode component." }
   ]
 }

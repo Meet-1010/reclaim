@@ -38,6 +38,21 @@
     { "package": "com.amazon.speakscreen", "label": "Speak selection", "category": "accessibility", "level": "advanced", "about": "Reads selected text aloud." },
     { "package": "com.amazon.ods.kindleconnect", "label": "Mayday screen sharing", "category": "amazon-service", "level": "advanced", "about": "Mayday remote-help screen sharing." },
     { "package": "com.android.email", "label": "Email (AOSP)", "category": "bloat", "level": "recommended", "about": "Stock email client." },
-    { "package": "com.android.quicksearchbox", "label": "Quick search box", "category": "bloat", "level": "advanced", "about": "System search widget." }
+    { "package": "com.android.quicksearchbox", "label": "Quick search box", "category": "bloat", "level": "advanced", "about": "System search widget." },
+    { "package": "com.amazon.recess", "label": "Recess", "category": "bloat", "level": "recommended", "about": "Amazon Recess component." },
+    { "package": "com.amazon.readynowcore", "label": "On Deck", "category": "bloat", "level": "recommended", "about": "Predictive 'On Deck' prefetch." },
+    { "package": "com.amazon.zico", "label": "Documents", "category": "bloat", "level": "recommended", "about": "Documents app." },
+    { "package": "com.amazon.tahoe", "label": "Kids Space", "category": "bloat", "level": "advanced", "about": "Kids space / child profile." },
+    { "package": "com.amazon.cloud9.kids", "label": "Kids web browser", "category": "bloat", "level": "advanced", "about": "Child web browser." },
+    { "package": "com.android.protips", "label": "Home-screen tips", "category": "bloat", "level": "recommended", "about": "Tip-of-the-day widget." },
+    { "package": "com.android.providers.downloads.ui", "label": "Downloads UI", "category": "bloat", "level": "recommended", "about": "Downloads list app." },
+    { "package": "com.android.providers.partnerbookmarks", "label": "Partner bookmarks", "category": "bloat", "level": "recommended", "about": "Carrier/partner bookmark data." },
+    { "package": "com.android.bookmarkprovider", "label": "Bookmark provider", "category": "bloat", "level": "recommended", "about": "Browser bookmarks store." },
+    { "package": "com.android.carrierconfig", "label": "Carrier config", "category": "bloat", "level": "recommended", "about": "Carrier network config, no cellular on Wi-Fi tablets." },
+    { "package": "com.amazon.afe.app", "label": "Tap to Alexa", "category": "assistant", "level": "advanced", "about": "Tap-to-Alexa accessibility." },
+    { "package": "com.amazon.alexa.multimodal.gemini", "label": "Alexa cards", "category": "assistant", "level": "advanced", "about": "Alexa multimodal cards." },
+    { "package": "com.amazon.device.sync", "label": "Sync service", "category": "amazon-service", "level": "advanced", "about": "Amazon account sync." },
+    { "package": "com.amazon.communication.discovery", "label": "Communication discovery", "category": "amazon-service", "level": "advanced", "about": "Device communication discovery." },
+    { "package": "com.amazon.tcomm.client", "label": "Communication client", "category": "amazon-service", "level": "advanced", "about": "Communication client library." }
   ]
 }

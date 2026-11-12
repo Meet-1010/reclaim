@@ -1,6 +1,6 @@
 {
   "name": "reclaim-hw",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Reclaim your hardware — one safe, emulator-first CLI to de-bloat, de-cloud and unlock devices you own. Starting with Android TV.",
   "type": "module",
   "bin": {
