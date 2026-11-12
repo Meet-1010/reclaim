@@ -24,6 +24,9 @@ jobs:
           node bin/reclaim.js profiles
           node bin/reclaim.js protected
           node bin/reclaim.js bloat androidtv
+          node bin/reclaim.js bloat firetv
+          node bin/reclaim.js bloat firetablet
           node bin/reclaim.js debloat --level recommended --dry-run
+          node bin/reclaim.js debloat --device firetv --level recommended --dry-run
           node bin/reclaim.js run androidtv/privacy --dry-run
           node bin/reclaim.js profile recommended --dry-run

@@ -24,6 +24,20 @@ const PROTECTED_IDS = new Set([
   'com.google.android.apps.tv.launcherx', // Google TV launcher variant
   'com.google.android.tungsten.setupwraith', // Android TV setup
   'com.google.android.tungsten.overscan',
+  // --- Fire OS (Amazon) critical packages, sourced from dumbtv's never-disable
+  //     list; disabling these bricks the home screen, input, or boot. ---
+  'com.amazon.tv.launcher', // Fire TV home screen
+  'com.amazon.firehomestarter', // starts the home screen at boot
+  'com.amazon.firelauncher', // Fire tablet launcher
+  'com.amazon.device.messaging', // ADM — disabling hung a 2025 Fire TV at boot
+  'com.amazon.webview.chromium', // system webview
+  'com.amazon.vizzini', // disabling causes an undismissable pairing window
+  'com.amazon.tv.oobe', // first-run setup (needed after factory reset)
+  'com.amazon.fireinputdevices', // remote / input devices
+  'com.amazon.autopairservice', // remote pairing
+  'com.amazon.whisperjoin.middleware.np', // device setup / pairing
+  'com.android.packageinstaller',
+  'com.android.permissioncontroller',
 ]);
 
 // Any package starting with one of these is also protected.
@@ -34,6 +48,14 @@ const PROTECTED_PREFIXES = [
   'com.google.android.apps.tv.launcher',
   'com.android.server',
   'com.android.providers.settings',
+  // Fire OS families whose packages are launcher/settings/input/SoC-critical
+  'com.amazon.tv.settings',
+  'com.amazon.tv.inputpreference',
+  'com.amazon.tv.devicecontrol',
+  'com.amazon.firelauncher',
+  'com.droidlogic', // Amlogic SoC HDMI / tuner
+  'com.mediatek', // MediaTek SoC HDMI / inputs
+  'com.vewd', // HbbTV engine
 ];
 
 export function isProtected(pkg) {

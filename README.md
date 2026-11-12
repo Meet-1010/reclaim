@@ -150,6 +150,14 @@ reclaim undo debloat/androidtv                   # re-enable everything it disab
 reclaim lists update androidtv                   # pull the latest community list
 ```
 
+**Bundled lists:** `androidtv`, `firetv`, `firetablet`. A connected device is auto-detected
+(`reclaim debloat --yes` picks the right list), or target one with `--device firetv`. The
+Fire lists' package IDs are community-sourced (credited from the
+[dumbtv](https://github.com/humblemuzzu/dumbtv) and
+[Fire-Tools](https://github.com/mrhaydendp/Fire-Tools) projects); Fire OS package names
+vary by version, so reclaim only disables **installed, non-protected** packages and the
+brick-guard knows Fire OS's launcher/input/settings/boot packages.
+
 Safety holds even for community data: `debloat` only touches **installed, non-protected**
 packages, `lists update` treats the downloaded file as **untrusted** (it validates the
 structure and **refuses any list that targets a protected app**), and the brick-guard is

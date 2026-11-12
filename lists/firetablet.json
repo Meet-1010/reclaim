@@ -1,0 +1,43 @@
+{
+  "device": "firetablet",
+  "version": 1,
+  "updated": "2026-11-12",
+  "source": "reclaim bundled (community-maintained)",
+  "credits": "Package IDs sourced from the Fire-Tools (mrhaydendp) and dumbtv (humblemuzzu) projects. Labels/levels are reclaim's own.",
+  "about": "Ads, tracking, Amazon services and junk on Amazon Fire tablets. Packages are DISABLED (never uninstalled) and reversible. Names vary by Fire OS version; reclaim only disables installed packages, and the brick-guard refuses launcher/settings/system packages. Disabling Alexa/Amazon services turns off those features — re-enable with `reclaim undo` if you want them back.",
+  "levels": {
+    "recommended": "Ads, special-offers and tracking — safe for most.",
+    "advanced": "Amazon services and Alexa — disable if you don't use them.",
+    "expert": "Deeper platform services; may break more features."
+  },
+  "packages": [
+    { "package": "com.amazon.kindle.kso", "label": "Special Offers (lockscreen ads)", "category": "ads", "level": "recommended", "about": "The lockscreen 'Special Offers' ads." },
+    { "package": "com.amazon.advertisingidsettings", "label": "Advertising ID settings", "category": "ads", "level": "recommended", "about": "Ad-tracking identifier settings." },
+    { "package": "com.amazon.hybridadidservice", "label": "Advertising ID service", "category": "ads", "level": "recommended", "about": "Generates the ad-tracking identifier." },
+    { "package": "com.amazon.device.sale.service", "label": "Sale / retail service", "category": "ads", "level": "recommended", "about": "Retail/sale promotions service." },
+    { "package": "com.amazon.firespotlight", "label": "Appstore spotlight", "category": "ads", "level": "recommended", "about": "Appstore spotlight promos." },
+    { "package": "com.amazon.windowshop", "label": "Amazon Shopping", "category": "ads", "level": "recommended", "about": "Pre-installed Amazon shopping app." },
+    { "package": "com.amazon.client.metrics", "label": "Client metrics", "category": "telemetry", "level": "recommended", "about": "Usage metrics reporting." },
+    { "package": "com.amazon.client.metrics.api", "label": "Client metrics API", "category": "telemetry", "level": "recommended", "about": "Metrics API." },
+    { "package": "com.amazon.device.metrics", "label": "Device metrics", "category": "telemetry", "level": "recommended", "about": "Device telemetry." },
+    { "package": "com.amazon.minerva.client.api", "label": "Minerva metrics", "category": "telemetry", "level": "recommended", "about": "Amazon Minerva analytics." },
+    { "package": "com.amazon.dp.logger", "label": "Device-platform logger", "category": "telemetry", "level": "recommended", "about": "Logs device-platform events." },
+    { "package": "com.amazon.connectivitydiag", "label": "Connectivity diagnostics", "category": "telemetry", "level": "recommended", "about": "Connectivity diagnostics reporting." },
+    { "package": "com.amazon.wirelessmetrics.service", "label": "Wireless metrics", "category": "telemetry", "level": "recommended", "about": "Wi-Fi/radio telemetry." },
+    { "package": "com.amazon.iris", "label": "News", "category": "bloat", "level": "recommended", "about": "Amazon news app." },
+    { "package": "com.amazon.weather", "label": "Weather", "category": "bloat", "level": "recommended", "about": "Weather app." },
+    { "package": "com.amazon.wallpaper", "label": "Wallpaper", "category": "bloat", "level": "recommended", "about": "Amazon wallpaper app." },
+    { "package": "com.amazon.legalsettings", "label": "Legal notices", "category": "bloat", "level": "recommended", "about": "Legal notices app." },
+    { "package": "com.amazon.csapp", "label": "Help app", "category": "bloat", "level": "recommended", "about": "Amazon help/support app." },
+    { "package": "com.amazon.kor.demo", "label": "Retail demo", "category": "bloat", "level": "recommended", "about": "Retail demo mode." },
+    { "package": "com.amazon.ags.app", "label": "Amazon GameCircle", "category": "bloat", "level": "recommended", "about": "Game services." },
+    { "package": "com.amazon.ale", "label": "Experiments", "category": "telemetry", "level": "advanced", "about": "A/B experiment framework." },
+    { "package": "com.amazon.dee.app", "label": "Alexa app", "category": "assistant", "level": "advanced", "about": "The Alexa app. Disabling turns off Alexa." },
+    { "package": "com.amazon.tablet.voiceassistant", "label": "Alexa voice assistant", "category": "assistant", "level": "advanced", "about": "On-device voice assistant." },
+    { "package": "com.amazon.smartgenie", "label": "Alexa device dashboard", "category": "assistant", "level": "advanced", "about": "Alexa dashboard/hunches." },
+    { "package": "com.amazon.speakscreen", "label": "Speak selection", "category": "accessibility", "level": "advanced", "about": "Reads selected text aloud." },
+    { "package": "com.amazon.ods.kindleconnect", "label": "Mayday screen sharing", "category": "amazon-service", "level": "advanced", "about": "Mayday remote-help screen sharing." },
+    { "package": "com.android.email", "label": "Email (AOSP)", "category": "bloat", "level": "recommended", "about": "Stock email client." },
+    { "package": "com.android.quicksearchbox", "label": "Quick search box", "category": "bloat", "level": "advanced", "about": "System search widget." }
+  ]
+}
