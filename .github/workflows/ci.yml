@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate catalog, recipes and profiles
+        run: node bin/reclaim.js validate
+
+      - name: Smoke-test (device-free commands + dry-runs)
+        run: |
+          node bin/reclaim.js list
+          node bin/reclaim.js catalog
+          node bin/reclaim.js profiles
+          node bin/reclaim.js run androidtv/privacy --dry-run
+          node bin/reclaim.js profile recommended --dry-run
