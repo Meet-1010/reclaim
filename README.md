@@ -129,9 +129,15 @@ reclaim catalog devices         # every device, grouped by family, with support 
 reclaim catalog features        # every feature, ready + template
 reclaim browse privacy          # features in an area
 reclaim browse "Fire TV"        # features for a device family
+reclaim search jellyfin         # search features + devices
 reclaim new-device  --id shield-2025 --name "..." --family "Android TV"
 reclaim new-recipe  --id androidtv/foo --name "..." --area privacy --device androidtv
+reclaim validate                # check every recipe & catalog entry is valid
 ```
+
+`reclaim validate` enforces the schema **and** the honesty rule (templates may never
+carry executable steps). It runs in CI (GitHub Actions) on every push, so the catalog
+can't drift as it grows.
 
 Device support is honest: `supported` (works now), `planned` (real, on the roadmap),
 `community` (doable via community methods). No device claims a feature it can't do.

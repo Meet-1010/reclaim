@@ -104,6 +104,29 @@ export async function browse(term) {
   ui.info('See areas: ' + ui.c.bold('reclaim catalog areas') + '  ·  devices: ' + ui.c.bold('reclaim catalog devices'));
 }
 
+// search across features and devices by free text
+export async function search(term) {
+  const t = String(term || '').toLowerCase();
+  const [features, devices] = await Promise.all([loadFeatures(), loadDevices()]);
+  const fm = features.filter((f) =>
+    [f.id, f.name, f.area, f.family, f.plan].filter(Boolean).some((x) => x.toLowerCase().includes(t)));
+  const dm = devices.filter((d) =>
+    [d.id, d.name, d.family].some((x) => x.toLowerCase().includes(t)));
+
+  ui.heading(`Search "${term}"`);
+  ui.log('  ' + ui.c.bold(`Features (${fm.length})`));
+  for (const f of fm.slice(0, 40)) {
+    ui.log('    ' + statusBadge(f.status).padEnd(22) + ' ' + ui.c.bold(f.id) + ui.c.dim('  ' + f.family));
+  }
+  if (fm.length > 40) ui.log('    ' + ui.c.dim(`…and ${fm.length - 40} more`));
+  ui.nl();
+  ui.log('  ' + ui.c.bold(`Devices (${dm.length})`));
+  for (const d of dm.slice(0, 25)) {
+    ui.log('    ' + statusBadge(d.status).padEnd(22) + ' ' + d.name);
+  }
+  if (!fm.length && !dm.length) ui.warn('No matches.');
+}
+
 // --- generators ---------------------------------------------------------
 
 export async function newDevice(flags) {

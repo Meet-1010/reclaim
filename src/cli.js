@@ -13,6 +13,7 @@ import * as wifi from './wifi.js';
 import * as apps from './apps.js';
 import * as backup from './backup.js';
 import * as catalog from './catalog.js';
+import * as validate from './validate.js';
 
 export async function run(argv) {
   const { cmd, args, flags } = parse(argv);
@@ -35,6 +36,10 @@ export async function run(argv) {
       return cmdCatalog(args[0], flags);
     case 'browse':
       return cmdBrowse(args[0]);
+    case 'search':
+      return cmdSearch(args.join(' '));
+    case 'validate':
+      return cmdValidate();
     case 'new-device':
       return catalog.newDevice(flags);
     case 'new-recipe':
@@ -191,6 +196,19 @@ async function cmdBrowse(term) {
     return;
   }
   await catalog.browse(term);
+}
+
+async function cmdSearch(term) {
+  if (!term) {
+    ui.fail('Search for what? e.g. ' + ui.c.bold('reclaim search jellyfin'));
+    return;
+  }
+  await catalog.search(term);
+}
+
+async function cmdValidate() {
+  const code = await validate.run();
+  if (code) process.exitCode = code;
 }
 
 async function cmdProfiles() {
@@ -483,7 +501,9 @@ function showHelp() {
   row('catalog', 'Overview: features, devices, areas');
   row('catalog areas|devices|features', 'Browse the full catalog');
   row('browse <area|family>', 'Filter features, e.g. browse privacy');
+  row('search <text>', 'Search features + devices');
   row('new-recipe / new-device', 'Scaffold a new feature or device');
+  row('validate', 'Check every recipe & catalog entry is valid');
   ui.nl();
   ui.log('  ' + ui.c.bold('RECIPES'));
   row('list', 'List runnable recipes');
