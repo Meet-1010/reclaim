@@ -584,7 +584,7 @@ function showHelp() {
   ui.nl();
   ui.log('  ' + ui.c.bold('CATALOG') + ui.c.dim('  (100+ features across 100+ devices)'));
   row('catalog', 'Overview: features, devices, areas');
-  row('catalog areas|devices|features', 'Browse the full catalog');
+  row('catalog <type>', 'Browse areas, devices or features');
   row('browse <area|family>', 'Filter features, e.g. browse privacy');
   row('search <text>', 'Search features + devices');
   row('new-recipe / new-device', 'Scaffold a new feature or device');
@@ -639,5 +639,7 @@ function showHelp() {
 }
 
 function row(cmd, desc) {
-  ui.log('    ' + ui.c.cyan(cmd.padEnd(24)) + ui.c.dim(desc));
+  // Always leave a gap, even when the label is longer than the column width.
+  const gap = cmd.length <= 22 ? ' '.repeat(24 - cmd.length) : '  ';
+  ui.log('    ' + ui.c.cyan(cmd) + gap + ui.c.dim(desc));
 }
