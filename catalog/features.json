@@ -13,6 +13,8 @@
   { "id": "androidtv/display-density", "name": "Change display density (DPI)", "area": "display", "family": "Android TV", "risk": "advanced", "status": "ready" },
   { "id": "androidtv/show-taps", "name": "Show on-screen taps", "area": "developer", "family": "Android TV", "risk": "safe", "status": "ready" },
   { "id": "androidtv/wifi-scan-off", "name": "Stop background Wi-Fi scanning", "area": "privacy", "family": "Android TV", "risk": "safe", "status": "ready" },
+  { "id": "androidtv/screensaver-off", "name": "Disable the screensaver", "area": "display", "family": "Android TV", "risk": "safe", "status": "ready" },
+  { "id": "androidtv/playprotect-off", "name": "Turn off Play Protect app scanning", "area": "privacy", "family": "Android TV", "risk": "advanced", "status": "ready" },
 
   { "id": "androidtv/install-fdroid", "name": "Install F-Droid (open-source app store)", "area": "sideloading", "family": "Android TV", "risk": "reversible", "status": "ready" },
   { "id": "androidtv/install-smarttube", "name": "Install SmartTube (ad-free YouTube)", "area": "ads", "family": "Android TV", "risk": "reversible", "status": "ready" },

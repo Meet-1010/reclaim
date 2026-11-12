@@ -1,0 +1,19 @@
+{
+  "id": "androidtv/screensaver-off",
+  "name": "Disable the screensaver",
+  "device": "androidtv",
+  "area": "display",
+  "risk": "safe",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Turns off the daydream/screensaver so the TV never drifts into ambient/screensaver mode on idle. Reversible.",
+  "requires": ["adb"],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Disable the screensaver",
+      "cmd": "settings put secure screensaver_enabled 0",
+      "undo": "settings put secure screensaver_enabled 1"
+    }
+  ]
+}

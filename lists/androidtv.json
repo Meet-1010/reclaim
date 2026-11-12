@@ -37,6 +37,19 @@
     { "package": "com.android.htmlviewer", "label": "HTML viewer", "category": "bloat", "level": "advanced", "about": "Minimal HTML display component." },
     { "package": "com.android.calendar", "label": "Calendar (AOSP)", "category": "bloat", "level": "advanced", "about": "Stock calendar app." },
     { "package": "com.google.android.gsf.login", "label": "Google login service (legacy)", "category": "expert", "level": "expert", "about": "Legacy Google account login service; disable with care." },
-    { "package": "com.google.android.gms.location.history", "label": "Location history", "category": "privacy", "level": "expert", "about": "Location history component." }
+    { "package": "com.google.android.gms.location.history", "label": "Location history", "category": "privacy", "level": "expert", "about": "Location history component." },
+    { "package": "com.android.cellbroadcastreceiver", "label": "Emergency cell broadcasts", "category": "bloat", "level": "recommended", "about": "Cellular emergency alerts — a TV has no cellular radio." },
+    { "package": "com.android.carrierdefaultapp", "label": "Carrier default app", "category": "bloat", "level": "recommended", "about": "Mobile-carrier helper, irrelevant on a TV." },
+    { "package": "com.android.simappdialog", "label": "SIM app dialog", "category": "bloat", "level": "recommended", "about": "SIM-card setup dialog, no SIM on a TV." },
+    { "package": "com.android.calllogbackup", "label": "Call-log backup", "category": "bloat", "level": "recommended", "about": "Backs up call logs — a TV makes no calls." },
+    { "package": "com.android.mms.service", "label": "MMS service", "category": "bloat", "level": "recommended", "about": "Multimedia messaging service, no SMS on a TV." },
+    { "package": "com.android.bluetoothmidiservice", "label": "Bluetooth MIDI", "category": "bloat", "level": "recommended", "about": "MIDI-over-Bluetooth support." },
+    { "package": "com.android.dreams.phototable", "label": "Photo screensaver", "category": "bloat", "level": "recommended", "about": "Photo-table daydream screensaver." },
+    { "package": "com.android.providers.userdictionary", "label": "User dictionary", "category": "bloat", "level": "recommended", "about": "Personal typing dictionary store." },
+    { "package": "com.android.sharedstoragebackup", "label": "Shared storage backup", "category": "bloat", "level": "recommended", "about": "Backs up shared storage to Google." },
+    { "package": "com.android.wallpaper.livepicker", "label": "Live wallpaper picker", "category": "bloat", "level": "recommended", "about": "Live-wallpaper chooser." },
+    { "package": "com.google.android.marvin.talkback", "label": "TalkBack screen reader", "category": "accessibility", "level": "advanced", "about": "Screen reader — disable only if you don't use it." },
+    { "package": "com.google.android.configupdater", "label": "Config updater", "category": "updates", "level": "advanced", "about": "Pushes Google config updates (certs, intents)." },
+    { "package": "com.android.statementservice", "label": "App-link verification", "category": "telemetry", "level": "advanced", "about": "Verifies app-link associations over the network." }
   ]
 }

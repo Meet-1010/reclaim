@@ -40,6 +40,12 @@
     { "package": "com.amazon.tv.easyupgrade", "label": "Update nag", "category": "updates", "level": "advanced", "about": "Firmware upgrade prompts." },
     { "package": "com.amazon.ale", "label": "Experiments", "category": "telemetry", "level": "advanced", "about": "A/B experiment framework." },
     { "package": "com.amazon.katoch", "label": "Experiments", "category": "telemetry", "level": "advanced", "about": "Experiment framework." },
-    { "package": "com.amazon.device_remote_config_sync_service", "label": "Remote config sync", "category": "telemetry", "level": "advanced", "about": "Syncs remote feature config." }
+    { "package": "com.amazon.device_remote_config_sync_service", "label": "Remote config sync", "category": "telemetry", "level": "advanced", "about": "Syncs remote feature config." },
+    { "package": "com.amazon.tigris", "label": "Analytics", "category": "telemetry", "level": "recommended", "about": "Analytics component." },
+    { "package": "com.amazon.perfc", "label": "Performance telemetry", "category": "telemetry", "level": "recommended", "about": "Performance metrics." },
+    { "package": "com.amazon.neo.minerva.logcat", "label": "Minerva logcat", "category": "telemetry", "level": "recommended", "about": "Log collection for Minerva analytics." },
+    { "package": "com.amazon.device.sale.service", "label": "Sale / retail service", "category": "ads", "level": "recommended", "about": "Retail/sale promotions service." },
+    { "package": "com.amazon.windowshop", "label": "Amazon Shopping", "category": "ads", "level": "recommended", "about": "Pre-installed Amazon shopping app." },
+    { "package": "com.amazon.iris", "label": "News", "category": "bloat", "level": "recommended", "about": "Amazon news app." }
   ]
 }

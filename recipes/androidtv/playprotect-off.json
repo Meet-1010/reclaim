@@ -1,0 +1,20 @@
+{
+  "id": "androidtv/playprotect-off",
+  "name": "Turn off Play Protect app scanning",
+  "device": "androidtv",
+  "area": "privacy",
+  "risk": "advanced",
+  "reversible": true,
+  "legality": "ok",
+  "summary": "Stops Google Play Protect from scanning and reporting the apps you install. Less Google visibility into your sideloads — but it also disables on-device malware scanning, so only use it if you trust your app sources. Reversible.",
+  "requires": ["adb"],
+  "notes": ["Trade-off: less telemetry, but no malware scan. Re-enable anytime with reclaim undo."],
+  "steps": [
+    {
+      "type": "adb-shell",
+      "label": "Disable the Play Protect verifier",
+      "cmd": "settings put global package_verifier_enable 0",
+      "undo": "settings put global package_verifier_enable 1"
+    }
+  ]
+}
