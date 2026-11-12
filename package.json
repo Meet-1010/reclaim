@@ -19,7 +19,8 @@
     "src",
     "recipes",
     "profiles",
-    "catalog"
+    "catalog",
+    "lists"
   ],
   "keywords": [
     "android-tv",

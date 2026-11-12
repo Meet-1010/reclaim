@@ -123,6 +123,26 @@ reclaim wifi                       # cut the cable, control it across the room
 
 ---
 
+## Community package lists
+
+Beyond the fixed recipes, reclaim carries **device-specific bloat lists** that anyone can
+extend — the same scaling model the mature TV tools use. Each package is tagged with a
+level (`recommended` / `advanced` / `expert`), and a list can be refreshed from a
+community source without a new release.
+
+```bash
+reclaim bloat androidtv                 # browse the known-bloat list by category
+reclaim debloat --level recommended --dry-run   # preview what would be disabled
+reclaim debloat --level recommended --yes       # disable (only installed, never protected)
+reclaim undo debloat/androidtv                   # re-enable everything it disabled
+reclaim lists update androidtv                   # pull the latest community list
+```
+
+Safety holds even for community data: `debloat` only touches **installed, non-protected**
+packages, `lists update` treats the downloaded file as **untrusted** (it validates the
+structure and **refuses any list that targets a protected app**), and the brick-guard is
+the final backstop. See [CONTRIBUTING.md](CONTRIBUTING.md) to add packages.
+
 ## Catalog — built to scale to 100s
 
 reclaim ships a registry of **103 features across 109 devices (18 families) and 30 areas**, and

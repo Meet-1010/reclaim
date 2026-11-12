@@ -4,8 +4,11 @@
 import * as recipesMod from './recipes.js';
 import * as profilesMod from './profiles.js';
 import * as catalog from './catalog.js';
+import * as lists from './lists.js';
 import * as ui from './ui.js';
 import * as safety from './safety.js';
+
+const LIST_LEVELS = new Set(['recommended', 'advanced', 'expert']);
 
 const RISK = new Set(['safe', 'reversible', 'advanced', 'expert']);
 const FEAT_STATUS = new Set(['ready', 'template']);
@@ -85,9 +88,30 @@ export async function run() {
     if (!readyIds.has(id)) W(`recipe ${id}: no matching "ready" catalog feature`);
   }
 
+  // --- package lists ---
+  const listDevices = await lists.available();
+  let listPkgCount = 0;
+  for (const d of listDevices) {
+    const l = await lists.loadBundled(d);
+    if (!l || !Array.isArray(l.packages)) {
+      E(`list ${d}: missing "packages" array`);
+      continue;
+    }
+    const seenPkg = new Set();
+    for (const p of l.packages) {
+      listPkgCount++;
+      if (!p.package || !p.label) E(`list ${d}: entry missing package/label`);
+      if (!LIST_LEVELS.has(p.level)) E(`list ${d}: "${p.package}" invalid level "${p.level}"`);
+      if (seenPkg.has(p.package)) E(`list ${d}: duplicate package "${p.package}"`);
+      seenPkg.add(p.package);
+      if (safety.isProtected(p.package)) E(`list ${d}: "${p.package}" is a PROTECTED app — must not be in a bloat list`);
+    }
+  }
+
   // --- report ---
   ui.heading('Validate');
   ui.kv('recipes', String(recipes.length));
+  ui.kv('lists', `${listDevices.length} (${listPkgCount} packages)`);
   ui.kv('profiles', String(profiles.length));
   ui.kv('areas', String(areas.length));
   ui.kv('devices', String(devices.length));

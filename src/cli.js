@@ -15,6 +15,7 @@ import * as backup from './backup.js';
 import * as catalog from './catalog.js';
 import * as validate from './validate.js';
 import * as safety from './safety.js';
+import * as lists from './lists.js';
 
 export async function run(argv) {
   const { cmd, args, flags } = parse(argv);
@@ -43,6 +44,12 @@ export async function run(argv) {
       return cmdValidate();
     case 'protected':
       return cmdProtected();
+    case 'bloat':
+      return cmdBloat(args[0]);
+    case 'debloat':
+      return cmdDebloat(flags);
+    case 'lists':
+      return cmdLists(args[0], args[1], flags);
     case 'new-device':
       return catalog.newDevice(flags);
     case 'new-recipe':
@@ -212,6 +219,57 @@ async function cmdSearch(term) {
 async function cmdValidate() {
   const code = await validate.run();
   if (code) process.exitCode = code;
+}
+
+// Returns the connected device profile, or null — without printing errors.
+async function maybeDevice() {
+  if (!(await adb.hasAdb())) return null;
+  try {
+    const { profiles } = await device.detectAll();
+    return profiles[0] || null;
+  } catch {
+    return null;
+  }
+}
+
+async function cmdBloat(dev) {
+  await lists.browse(dev || 'androidtv');
+}
+
+async function cmdDebloat(flags) {
+  const level = flags.level || 'recommended';
+  const dry = Boolean(flags['dry-run'] || flags.dry);
+  const p = await maybeDevice();
+  const avail = await lists.available();
+  // pick the list device; prefer an explicit --device, else the connected device
+  // IF we have a list for it, else default to androidtv.
+  const dev = flags.device || (p && avail.includes(p.family) ? p.family : 'androidtv');
+  // only act on the connected device if its family matches the list — never
+  // debloat the wrong device (e.g. a phone with the TV list).
+  const serial = p && p.family === dev ? p.serial : null;
+
+  if (!dry) {
+    if (!serial) {
+      ui.fail(`No "${dev}" device connected.`);
+      if (p && p.family !== dev) ui.info(`The connected device is "${p.family}", which doesn't match the "${dev}" list.`);
+      ui.info('Preview the list with ' + ui.c.bold(`reclaim debloat --level ${level} --dry-run`) + '.');
+      return;
+    }
+    if (!flags.yes) {
+      ui.warn(`This will disable multiple apps at level "${level}".`);
+      ui.info('Preview first: ' + ui.c.bold(`reclaim debloat --level ${level} --dry-run`) + ', then add ' + ui.c.bold('--yes') + '.');
+      return;
+    }
+  }
+  await lists.debloat(serial, { device: dev, level, mode: dry ? 'dry' : 'apply' });
+}
+
+async function cmdLists(sub, dev, flags) {
+  if (sub === 'update') {
+    await lists.update(dev || 'androidtv', { url: flags.url, file: flags.file });
+    return;
+  }
+  await lists.overview();
 }
 
 function cmdProtected() {
@@ -538,6 +596,12 @@ function showHelp() {
   row('run <id> --yes', 'Apply a recipe (makes real changes)');
   row('undo <id>', 'Roll a recipe back');
   row('history', 'See everything reclaim has done (device passport)');
+  ui.nl();
+  ui.log('  ' + ui.c.bold('PACKAGE LISTS') + ui.c.dim('  (community-updatable debloat)'));
+  row('bloat [device]', 'Show the known-bloat list');
+  row('debloat --level <L>', 'Disable listed bloat: recommended|advanced|expert');
+  row('lists', 'Show available package lists');
+  row('lists update [device]', 'Refresh a list from a community source');
   ui.nl();
   ui.log('  ' + ui.c.bold('PROFILES') + ui.c.dim('  (bundles of recipes, one command)'));
   row('profiles', 'List the profile bundles');

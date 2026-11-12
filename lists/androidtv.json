@@ -1,0 +1,42 @@
+{
+  "device": "androidtv",
+  "version": 1,
+  "updated": "2026-11-12",
+  "source": "reclaim bundled (community-maintained)",
+  "about": "Packages commonly disabled on Android TV. All are disabled (never uninstalled) and reversible. Protected system packages are intentionally absent and are refused by the brick-guard anyway.",
+  "levels": {
+    "recommended": "Safe for almost everyone — ads, junk, unused apps.",
+    "advanced": "Disable only if you don't use the feature.",
+    "expert": "Power users; may remove useful functionality."
+  },
+  "packages": [
+    { "package": "com.google.android.tvrecommendations", "label": "Home-screen recommendations", "category": "ads", "level": "recommended", "about": "Sponsored/recommended rows on the home screen." },
+    { "package": "com.google.android.feedback", "label": "Usage & feedback reporter", "category": "telemetry", "level": "recommended", "about": "Sends usage reports to Google." },
+    { "package": "com.google.android.play.games", "label": "Google Play Games", "category": "bloat", "level": "recommended", "about": "Games service most TV users never touch." },
+    { "package": "com.google.android.videos", "label": "Google TV / Play Movies", "category": "bloat", "level": "recommended", "about": "Google's own movie storefront app." },
+    { "package": "com.google.android.youtube.tvmusic", "label": "YouTube Music (TV)", "category": "bloat", "level": "recommended", "about": "Pre-installed YouTube Music." },
+    { "package": "com.google.android.youtube.tvkids", "label": "YouTube Kids (TV)", "category": "bloat", "level": "recommended", "about": "Pre-installed YouTube Kids." },
+    { "package": "com.android.printspooler", "label": "Print spooler", "category": "bloat", "level": "recommended", "about": "Printing, which a TV never does." },
+    { "package": "com.android.bips", "label": "Built-in print service", "category": "bloat", "level": "recommended", "about": "Default print plugin." },
+    { "package": "com.android.bookmarkprovider", "label": "Bookmark provider", "category": "bloat", "level": "recommended", "about": "Browser bookmarks store." },
+    { "package": "com.android.wallpaperbackup", "label": "Wallpaper backup", "category": "bloat", "level": "recommended", "about": "Backs up wallpaper to Google." },
+    { "package": "com.android.dreams.basic", "label": "Basic screensaver", "category": "bloat", "level": "recommended", "about": "Default daydream screensaver." },
+    { "package": "com.android.email", "label": "Email (AOSP)", "category": "bloat", "level": "recommended", "about": "Stock email client, useless on TV." },
+    { "package": "com.android.musicfx", "label": "MusicFX", "category": "bloat", "level": "recommended", "about": "Audio effects UI." },
+    { "package": "com.google.android.onetimeinitializer", "label": "One-time initializer", "category": "telemetry", "level": "recommended", "about": "Runs once at setup; safe to disable after." },
+    { "package": "com.google.android.syncadapters.contacts", "label": "Contacts sync", "category": "telemetry", "level": "recommended", "about": "Syncs contacts (not needed on a TV)." },
+    { "package": "com.android.providers.partnerbookmarks", "label": "Partner bookmarks", "category": "bloat", "level": "recommended", "about": "Carrier/partner bookmark data." },
+    { "package": "com.google.android.printservice.recommendation", "label": "Print service recommendation", "category": "bloat", "level": "recommended", "about": "Suggests print plugins." },
+    { "package": "com.google.android.katniss", "label": "Google Assistant / voice search", "category": "assistant", "level": "advanced", "about": "The TV search & assistant. Disabling stops voice search." },
+    { "package": "com.google.android.partnersetup", "label": "Partner setup", "category": "telemetry", "level": "advanced", "about": "Partner/OEM setup hooks; occasionally needed." },
+    { "package": "com.google.android.backuptransport", "label": "Google backup transport", "category": "telemetry", "level": "advanced", "about": "Cloud backup pipe." },
+    { "package": "com.google.android.apps.tv.dreamx", "label": "Google TV screensaver", "category": "bloat", "level": "advanced", "about": "Ambient/art screensaver." },
+    { "package": "com.google.android.tts", "label": "Text-to-speech engine", "category": "accessibility", "level": "advanced", "about": "Disable only if you don't use spoken output." },
+    { "package": "com.google.android.apps.mediashell", "label": "Cast receiver", "category": "bloat", "level": "advanced", "about": "Google Cast target. Disabling breaks casting to the TV." },
+    { "package": "com.android.managedprovisioning", "label": "Managed provisioning", "category": "bloat", "level": "advanced", "about": "Work-profile provisioning, irrelevant on a home TV." },
+    { "package": "com.android.htmlviewer", "label": "HTML viewer", "category": "bloat", "level": "advanced", "about": "Minimal HTML display component." },
+    { "package": "com.android.calendar", "label": "Calendar (AOSP)", "category": "bloat", "level": "advanced", "about": "Stock calendar app." },
+    { "package": "com.google.android.gsf.login", "label": "Google login service (legacy)", "category": "expert", "level": "expert", "about": "Legacy Google account login service; disable with care." },
+    { "package": "com.google.android.gms.location.history", "label": "Location history", "category": "privacy", "level": "expert", "about": "Location history component." }
+  ]
+}
