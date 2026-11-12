@@ -12,57 +12,76 @@ async function sh(serial, cmd) {
   }
 }
 
+// Gather the device health data as a structured object (used by report + --json).
+export async function collect(serial, profile) {
+  const [patch, uptime, df, memTotal, memAvail, dnsMode, dnsHost, limitAds, animW, disabled, tcpPort] =
+    await Promise.all([
+      sh(serial, 'getprop ro.build.version.security_patch'),
+      sh(serial, 'cat /proc/uptime'),
+      sh(serial, 'df -h /data | tail -1'),
+      sh(serial, "cat /proc/meminfo | grep MemTotal | awk '{print $2}'"),
+      sh(serial, "cat /proc/meminfo | grep MemAvailable | awk '{print $2}'"),
+      sh(serial, 'settings get global private_dns_mode'),
+      sh(serial, 'settings get global private_dns_specifier'),
+      sh(serial, 'settings get secure limit_ad_tracking'),
+      sh(serial, 'settings get global window_animation_scale'),
+      sh(serial, 'cmd package list packages -d'),
+      sh(serial, 'getprop service.adb.tcp.port'),
+    ]);
+  const cols = df ? df.split(/\s+/) : [];
+  return {
+    system: {
+      brand: profile.brand,
+      model: profile.model,
+      serial: profile.serial,
+      android: profile.androidVersion,
+      securityPatch: patch || null,
+      uptimeMin: uptime ? Math.round(parseFloat(uptime) / 60) : null,
+    },
+    resources: {
+      storageUsed: cols[2] || null,
+      storageTotal: cols[1] || null,
+      storageFullPct: cols[4] || null,
+      memTotalGb: memTotal ? +(parseInt(memTotal, 10) / 1024 / 1024).toFixed(1) : null,
+      memFreeGb: memAvail ? +(parseInt(memAvail, 10) / 1024 / 1024).toFixed(1) : null,
+    },
+    reclaim: {
+      adblockDns: dnsMode === 'hostname' && dnsHost && dnsHost !== 'null' ? dnsHost : null,
+      adTrackingLimited: limitAds === '1',
+      uiSpeed: animW && animW !== 'null' ? parseFloat(animW) : null,
+      disabledApps: disabled ? disabled.split('\n').filter(Boolean).length : 0,
+      wirelessAdb: Boolean(tcpPort && tcpPort !== ''),
+    },
+  };
+}
+
 export async function report(serial, profile) {
-  ui.heading('Device health — ' + profile.brand + ' ' + profile.model);
+  const d = await collect(serial, profile);
+  ui.heading('Device health — ' + d.system.brand + ' ' + d.system.model);
 
-  // --- identity ---
-  const [patch, uptime] = await Promise.all([
-    sh(serial, 'getprop ro.build.version.security_patch'),
-    sh(serial, 'cat /proc/uptime'),
-  ]);
   ui.log('  ' + ui.c.bold(ui.c.cyan('System')));
-  ui.kv('android', profile.androidVersion);
-  ui.kv('security patch', patch || 'unknown');
-  ui.kv('serial', profile.serial);
-  if (uptime) ui.kv('uptime', Math.round(parseFloat(uptime) / 60) + ' min');
+  ui.kv('android', d.system.android);
+  ui.kv('security patch', d.system.securityPatch || 'unknown');
+  ui.kv('serial', d.system.serial);
+  if (d.system.uptimeMin != null) ui.kv('uptime', d.system.uptimeMin + ' min');
 
-  // --- storage & memory ---
-  const df = await sh(serial, 'df -h /data | tail -1');
-  const memTotal = await sh(serial, "cat /proc/meminfo | grep MemTotal | awk '{print $2}'");
-  const memAvail = await sh(serial, "cat /proc/meminfo | grep MemAvailable | awk '{print $2}'");
   ui.nl();
   ui.log('  ' + ui.c.bold(ui.c.cyan('Resources')));
-  if (df) {
-    const cols = df.split(/\s+/);
-    ui.kv('storage /data', `${cols[2] || '?'} used / ${cols[1] || '?'} (${cols[4] || '?'} full)`);
+  if (d.resources.storageTotal) {
+    ui.kv('storage /data', `${d.resources.storageUsed} used / ${d.resources.storageTotal} (${d.resources.storageFullPct} full)`);
   }
-  if (memTotal) {
-    const t = (parseInt(memTotal, 10) / 1024 / 1024).toFixed(1);
-    const a = memAvail ? (parseInt(memAvail, 10) / 1024 / 1024).toFixed(1) : '?';
-    ui.kv('memory', `${a} GB free / ${t} GB`);
+  if (d.resources.memTotalGb != null) {
+    ui.kv('memory', `${d.resources.memFreeGb ?? '?'} GB free / ${d.resources.memTotalGb} GB`);
   }
-
-  // --- what reclaim changed ---
-  const [dnsMode, dnsHost, limitAds, animW, disabled, tcpPort] = await Promise.all([
-    sh(serial, 'settings get global private_dns_mode'),
-    sh(serial, 'settings get global private_dns_specifier'),
-    sh(serial, 'settings get secure limit_ad_tracking'),
-    sh(serial, 'settings get global window_animation_scale'),
-    sh(serial, 'cmd package list packages -d'),
-    sh(serial, 'getprop service.adb.tcp.port'),
-  ]);
-  const disabledCount = disabled ? disabled.split('\n').filter(Boolean).length : 0;
-  const yes = (b) => (b ? ui.c.green('on') : ui.c.gray('off'));
 
   ui.nl();
   ui.log('  ' + ui.c.bold(ui.c.cyan('reclaim status')));
-  ui.kv('ad-block DNS', dnsMode === 'hostname' && dnsHost && dnsHost !== 'null'
-    ? ui.c.green(dnsHost) : ui.c.gray('not set'));
-  ui.kv('ad tracking', limitAds === '1' ? ui.c.green('limited ✓') : ui.c.gray('default'));
-  ui.kv('UI speed', animW && animW !== 'null' && parseFloat(animW) < 1
-    ? ui.c.green(animW + '× (snappy)') : ui.c.gray('default (1.0×)'));
-  ui.kv('disabled apps', disabledCount ? ui.c.green(disabledCount + ' disabled') : ui.c.gray('none'));
-  ui.kv('wireless adb', yes(tcpPort && tcpPort !== ''));
+  ui.kv('ad-block DNS', d.reclaim.adblockDns ? ui.c.green(d.reclaim.adblockDns) : ui.c.gray('not set'));
+  ui.kv('ad tracking', d.reclaim.adTrackingLimited ? ui.c.green('limited ✓') : ui.c.gray('default'));
+  ui.kv('UI speed', d.reclaim.uiSpeed != null && d.reclaim.uiSpeed < 1
+    ? ui.c.green(d.reclaim.uiSpeed + '× (snappy)') : ui.c.gray('default (1.0×)'));
+  ui.kv('disabled apps', d.reclaim.disabledApps ? ui.c.green(d.reclaim.disabledApps + ' disabled') : ui.c.gray('none'));
+  ui.kv('wireless adb', d.reclaim.wirelessAdb ? ui.c.green('on') : ui.c.gray('off'));
 
   ui.nl();
   ui.info('Tune it up: ' + ui.c.bold('reclaim profile recommended --yes'));

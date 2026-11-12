@@ -85,33 +85,42 @@ export async function browse(device) {
   ui.info('Apply: ' + ui.c.bold('reclaim debloat --level recommended --dry-run'));
 }
 
-// Disable packages from the list up to the chosen level. mode: 'dry' | 'apply'.
-export async function debloat(serial, { device, level = 'recommended', mode }) {
+// Compute what a debloat at a given level would target (structured data).
+// candidates = at/below level & not protected; present = installed (if a device).
+export async function candidates(device, level = 'recommended', serial = null) {
   const list = await load(device);
-  if (!list) {
-    ui.fail(`No package list for "${device}".`);
-    return;
-  }
+  if (!list) return null;
   const rank = LEVEL_RANK[level] || 1;
-  // candidates at/below the level, minus anything protected (defense in depth)
-  const candidates = list.packages
+  const cands = list.packages
     .filter((p) => (LEVEL_RANK[p.level] || 1) <= rank)
     .filter((p) => !safety.isProtected(p.package));
 
-  // only touch packages actually installed, when we can see the device
-  let present = candidates;
+  let present = cands;
+  let installChecked = false;
   if (serial) {
     try {
       const { stdout } = await adb.shell(serial, 'pm list packages');
       const installed = new Set(stdout.split('\n').map((l) => l.replace('package:', '').trim()));
-      present = candidates.filter((p) => installed.has(p.package));
+      present = cands.filter((p) => installed.has(p.package));
+      installChecked = true;
     } catch {
       /* fall back to all candidates */
     }
   }
+  return { device, level, origin: list._origin, candidates: cands, present, installChecked };
+}
+
+// Disable packages from the list up to the chosen level. mode: 'dry' | 'apply'.
+export async function debloat(serial, { device, level = 'recommended', mode }) {
+  const data = await candidates(device, level, serial);
+  if (!data) {
+    ui.fail(`No package list for "${device}".`);
+    return;
+  }
+  const { candidates: cands, present } = data;
 
   ui.heading(`Debloat ${device} — level: ${level}`);
-  ui.log('  ' + ui.c.dim(`${candidates.length} candidate(s) at this level · ${present.length} ${serial ? 'installed on this device' : '(install status unknown — no device)'}`));
+  ui.log('  ' + ui.c.dim(`${cands.length} candidate(s) at this level · ${present.length} ${serial ? 'installed on this device' : '(install status unknown — no device)'}`));
   ui.nl();
   if (!present.length) {
     ui.warn('Nothing to disable here.');

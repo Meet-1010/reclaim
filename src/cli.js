@@ -45,7 +45,7 @@ export async function run(argv) {
     case 'protected':
       return cmdProtected();
     case 'bloat':
-      return cmdBloat(args[0]);
+      return cmdBloat(args[0], flags);
     case 'debloat':
       return cmdDebloat(flags);
     case 'lists':
@@ -67,7 +67,7 @@ export async function run(argv) {
     case 'history':
       return cmdHistory();
     case 'doctor':
-      return cmdDoctor();
+      return cmdDoctor(flags);
     case 'remote':
       return cmdRemote();
     case 'key':
@@ -193,7 +193,27 @@ async function cmdList() {
   ui.info('Preview any of them safely: ' + ui.c.bold('reclaim run <id> --dry-run'));
 }
 
+function printJson(obj) {
+  console.log(JSON.stringify(obj, null, 2));
+}
+
 async function cmdCatalog(sub, flags) {
+  if (flags.json) {
+    const [areas, devices, features] = await Promise.all([
+      catalog.loadAreas(), catalog.loadDevices(), catalog.loadFeatures(),
+    ]);
+    if (sub === 'areas') return printJson(areas);
+    if (sub === 'devices') return printJson(devices);
+    if (sub === 'features') return printJson(features);
+    return printJson({
+      features: features.length,
+      ready: features.filter((f) => f.status === 'ready').length,
+      templates: features.filter((f) => f.status === 'template').length,
+      devices: devices.length,
+      families: [...new Set(devices.map((d) => d.family))].length,
+      areas: areas.length,
+    });
+  }
   if (sub === 'areas') return catalog.listAreas();
   if (sub === 'devices') return catalog.listDevices({ family: flags.family });
   if (sub === 'features') return catalog.listFeatures({ area: flags.area, family: flags.family, status: flags.status });
@@ -232,8 +252,13 @@ async function maybeDevice() {
   }
 }
 
-async function cmdBloat(dev) {
-  await lists.browse(dev || 'androidtv');
+async function cmdBloat(dev, flags = {}) {
+  const device = dev || 'androidtv';
+  if (flags.json) {
+    const list = await lists.load(device);
+    return list ? printJson(list) : ui.fail(`No package list for "${device}".`);
+  }
+  await lists.browse(device);
 }
 
 async function cmdDebloat(flags) {
@@ -247,6 +272,13 @@ async function cmdDebloat(flags) {
   // only act on the connected device if its family matches the list — never
   // debloat the wrong device (e.g. a phone with the TV list).
   const serial = p && p.family === dev ? p.serial : null;
+
+  if (flags.json) {
+    const data = await lists.candidates(dev, level, serial);
+    return data
+      ? printJson({ device: data.device, level: data.level, present: data.present.map((x) => x.package), candidates: data.candidates.map((x) => x.package) })
+      : ui.fail(`No package list for "${dev}".`);
+  }
 
   if (!dry) {
     if (!serial) {
@@ -475,9 +507,10 @@ async function cmdHistory() {
   }
 }
 
-async function cmdDoctor() {
+async function cmdDoctor(flags = {}) {
   const p = await requireDevice();
   if (!p) return;
+  if (flags.json) return printJson(await doctor.collect(p.serial, p));
   await doctor.report(p.serial, p);
 }
 
@@ -627,6 +660,7 @@ function showHelp() {
   ui.log('  ' + ui.c.bold('GLOBAL FLAGS'));
   row('--dry-run', 'Never touch a device — just show what would happen');
   row('--yes', 'Skip the confirmation prompt');
+  row('--json', 'Machine-readable output (catalog, bloat, doctor, debloat)');
   ui.nl();
   ui.box(
     [

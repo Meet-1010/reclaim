@@ -1,0 +1,11 @@
+{
+  "id": "dashboard",
+  "name": "Always-on dashboard",
+  "device": "androidtv",
+  "summary": "Turn a TV box into a wall display / digital signage: keep the screen on, kill the screensaver, and speed up the UI.",
+  "recipes": [
+    "androidtv/stay-awake",
+    "androidtv/screensaver-off",
+    "androidtv/snappy"
+  ]
+}

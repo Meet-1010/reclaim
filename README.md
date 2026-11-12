@@ -1,7 +1,11 @@
 # reclaim
 
+[![npm](https://img.shields.io/npm/v/reclaim-hw)](https://www.npmjs.com/package/reclaim-hw)
+[![CI](https://github.com/Meet-1010/reclaim/actions/workflows/ci.yml/badge.svg)](https://github.com/Meet-1010/reclaim/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/reclaim-hw)](LICENSE)
+
 **Reclaim your hardware.** One safe, emulator-first CLI that de-bloats, de-clouds and
-unlocks devices you already own — starting with **Android TV**.
+unlocks devices you already own — starting with **Android TV** (plus Fire TV / Fire tablet debloat).
 
 > The idea: the "IDE" is the easy part. The real product is an **engine + a growing
 > library of recipes**. The engine never changes; the recipe library grows forever,
